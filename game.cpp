@@ -334,3 +334,5 @@ int Game::check_terminal(char token){
 }
 
 void Game::user_win(){
+    cout << "\n You have beat the algorithm!\n";
+}
