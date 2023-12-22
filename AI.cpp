@@ -32,8 +32,6 @@ void AI::ai_turn(int move[], char board[][3], int& function_counter){
         }
    }
    
-    //cout << "\nx counter: " << x_counter << endl;
-    //cout << "\no counter: " << o_counter << endl;
     if(x_counter == 0 && o_counter == 0){
         this->board_empty(x_counter, o_counter, move);
     }
@@ -145,7 +143,6 @@ void AI::minimax(int x_count, int o_count, int move[], char board[][3]){
             if(maxFound){
                 move[0] = treeLevel[x]->get_x();
                 move[1] = treeLevel[x]->get_y();
-                //DEAL WITH THE HEAP TREE
                 return;
 
             }
@@ -157,7 +154,6 @@ void AI::minimax(int x_count, int o_count, int move[], char board[][3]){
             if(maxFound){
                 move[0] = treeLevel[x]->get_x();
                 move[1] = treeLevel[x]->get_y();
-                //DEAL WITH THE HEAP TREE
                 return;
 
             }
@@ -229,7 +225,6 @@ void AI::minimax(int x_count, int o_count, int move[], char board[][3]){
                     if(maxFound){
                         move[0] = treeLevel[x]->get_x();
                         move[1] = treeLevel[x]->get_y();
-                        //DEAL WITH THE HEAP TREE
                         return;
 
                     }  
@@ -241,19 +236,12 @@ void AI::minimax(int x_count, int o_count, int move[], char board[][3]){
                     if(maxFound){
                         move[0] = treeLevel[x]->get_x();
                         move[1] = treeLevel[x]->get_y();
-                        //DEAL WITH THE HEAP TREE
                         return;
                     }
                 } 
             }
         }
     }
-    if(!maxFound){
-        // need to access the 2nd level at whichever index has -1 utility
-        // need to keep track of boards that have -1 utility in lvl 2
-    }
-
-
     cout << "\nSorry, still thinking :/\n";
   
     exit(0);
@@ -262,8 +250,8 @@ void AI::minimax(int x_count, int o_count, int move[], char board[][3]){
 
 int* AI::get_empties(char board[][3]){
     /*
-    Function to get the empty spaces from a board and save their coordinates in a 
-    dynamic array. Pointer to array will be returned.
+    DESCRIPTION: Function to get the empty spaces from a board and save their coordinates in a 
+                 dynamic array. Pointer to array will be returned.
     */
     int counter = 0;
     for(int x = 0; x < 3; x++){
@@ -294,8 +282,8 @@ int* AI::get_empties(char board[][3]){
 
 int AI::get_empty_size(char board[][3]){
     /*
-    Function to get the empty spaces from a board and save their coordinates in a 
-    dynamic array. Pointer to array will be returned.
+    DESCRIPTION: Function to get the empty spaces from a board and save their coordinates in a 
+                 dynamic array. Pointer to array will be returned.
     */
     int counter = 0;
     for(int x = 0; x < 3; x++){
@@ -394,6 +382,11 @@ int AI::search(board_node *board, bool currentMax){
 }
 
 void AI::new_level(int emptySpaces, board_node **treeLevel){
+    /*
+    DESCRIPTION: Function to make an array of heap board_node pointers
+                 assigigning the array to the double pointer passed in, 
+                 and populating the array.
+    */
     int emptySpaces2 = (emptySpaces - 1);
 
     // looping through first level of decision tree
@@ -418,6 +411,11 @@ void AI::new_level(int emptySpaces, board_node **treeLevel){
 }
 
 void AI::token_insert(board_node** array, int* emptyArray, int size, int x_count, int o_count, int lvl){
+    /*
+    DESCRIPTION: Function defined to place either an x or o token in each board in an 
+                 array of game boards.
+    */
+    
     // X AND O COUNTS ARE BASED ON ORIGINAL LVL 0 BOARD
     int j = 0;
     for(int x = 0; x < size; x++){
@@ -426,6 +424,8 @@ void AI::token_insert(board_node** array, int* emptyArray, int size, int x_count
             if(lvl % 2 == 0){
                 // an even level of decision tree
                 array[x]->thisBoard[emptyArray[j]][emptyArray[j + 1]] = 'x';
+                array[x]->set_x(emptyArray[j]);
+                array[x]->set_y(emptyArray[j + 1]);
 
             }
             else{
@@ -436,13 +436,18 @@ void AI::token_insert(board_node** array, int* emptyArray, int size, int x_count
             j += 2;
         }
         else{
+
             // agent is x
             if(lvl % 2 == 0){
+
                 // an even level of decision tree
                 array[x]->thisBoard[emptyArray[j]][emptyArray[j + 1]] = 'o';
+                array[x]->set_x(emptyArray[j]);
+                array[x]->set_y(emptyArray[j + 1]);
 
             }
             else{
+
                 // an odd level of decision tree
                 array[x]->thisBoard[emptyArray[j]][emptyArray[j + 1]] = 'x';
             }
