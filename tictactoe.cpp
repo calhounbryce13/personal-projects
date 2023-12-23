@@ -3,7 +3,9 @@
 /*****************************************************************
  **AUTHOR: Bryce Calhoun
  **DESCRIPTION: Practical implementation of the minimax algorithm. This version of the 
-                logic uses an optimized approach of ....
+                logic uses an optimized approach of a semi-intelligent decision making
+                process for the first move of the agent (regardless of token). Only 3 levels
+                of the tree are required.
  **DATE COMPLETED: 12-21-2022
 ********************************************************************/
 #include <iostream>
@@ -77,7 +79,6 @@ class AI{
 DESCRIPTION: An object to facilitate the playing of the game itself. 
 */
 class Game{
-    private:
 
     public:
         char game_board[3][3];
