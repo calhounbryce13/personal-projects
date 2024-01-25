@@ -72,8 +72,6 @@ void AI::board_empty(int x, int o, int move[]){
         
     
         int num = rand()% + optimals.size();
-        cout << "here" << endl;
-        cout << "\nrandom number is: " << num << endl;
         int* listOfOptimals = optimals[num].data();
         move[0] = listOfOptimals[0];
         move[1] = listOfOptimals[1];
