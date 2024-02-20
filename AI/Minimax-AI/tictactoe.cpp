@@ -86,7 +86,6 @@ class Game{
         void Program(AI);
         void greet_user();
         char token_selection();
-        void switch_case_function(int&);
         void print_board();
         bool turn_decider(char);
         void player_turn(int[]);
@@ -168,47 +167,15 @@ char Game::token_selection(){
     DESCRIPTION: Function to get token (x,o) choice from user.
     */
     char response;
-    int counter = 0;
     do{
-        this->switch_case_function(counter);
-        if(response != 'x' && response != 'o' && counter < 5){
+        cout << "I'll let you choose, do you want to play as 'X' or 'O' ?" << endl;
+        if(response != 'x' && response != 'o'){
             cin >> response;
-            counter++;
             system("CLS");
         } 
-    }while(response != 'x' && response != 'o' && counter <= 5);
+    }while(response != 'x' && response != 'o');
     return response;
 
-}
-
-void Game::switch_case_function(int& counter){
-    /*
-    DESCRIPTION: Something fun to simulate conversation until I learn LLMs :)
-    */
-    switch(counter){
-            case 1:
-                cout << "Let's try again, do you want to play as 'X' or 'O' ? : " << endl;
-                break;
-            case 2:
-                cout << "Haha, hopefully you can get it right this time. Do you want to play as 'X' or 'O' ? : " << endl;
-
-                break;
-            case 3:
-                cout << "It's not very difficult, just hit either x or o to play as : " << endl;
-
-                break;
-            case 4:
-                cout << "The game hasn't even started and you are loosing, please just pick x or o so I can beat you already :" << endl;
-
-                break;
-            case 5:
-                cout << "Okay I guess I am going first " << endl;
-
-                break;
-            default:
-                cout << "I'll let you choose, do you want to play as 'X' or 'O' ?" << endl;
-                break;
-        }
 }
 
 void Game::print_board(){

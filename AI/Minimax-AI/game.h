@@ -11,7 +11,6 @@ class Game{
         void Program(AI);
         void greet_user();
         char token_selection();
-        void switch_case_function(int&);
         void print_board();
         bool turn_decider(char);
         void player_turn(int[]);
