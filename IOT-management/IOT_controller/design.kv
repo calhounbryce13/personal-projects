@@ -1,0 +1,157 @@
+# Author: Bryce Calhoun
+# Description: This is the kvlang file for the GUI on the IOT controller
+
+<DeviceButton@Button>:
+    size_hint: None, None
+    size: 100, 100
+    text: ''
+    background_normal: ''
+    background_color: (0,0,0,0)
+    on_press: root.navigate_to_monitor()
+    
+    canvas.before:
+        Rectangle:
+            source: self.backgroundImage
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: self.overlayColor
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<HubScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        Label:
+            text: 'IOT Device Network Manager'
+            font_size: 60
+            pos_hint: {'center_x': 0.5}
+            size_hint: None, None
+            height: 100
+            width: 200
+            color: 0,0,0,1
+
+        FloatLayout:
+
+            device_1:device_1
+            device_2:device_2
+            device_3:device_3
+            device_4:device_4
+            device_5:device_5
+            device_6:device_6
+
+            # Central Button
+            Button:
+                text: "Connect"
+                size_hint: None, None
+                size: 150, 150
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_press: root.connect()
+                background_normal: ''
+                background_color: (0,0,0,1)
+                canvas.before:
+                    Color: 
+                        rgba: (0, 0, 0, 1)
+                    Ellipse:
+                        pos: self.pos
+                        size: self.size
+
+
+            # Left Button
+            DeviceButton:
+                id: device_1
+                pos_hint: {'center_x': 0.2, 'center_y': 0.5}
+                
+
+            # Right Button
+            DeviceButton:
+                id: device_2
+                pos_hint: {'center_x': 0.8, 'center_y': 0.5}
+
+            # Top Left Button
+            DeviceButton:
+                id: device_3
+                pos_hint: {'center_x': 0.3, 'center_y': 0.7}
+
+
+            # Top Right Button
+            DeviceButton:
+                id: device_4
+                pos_hint: {'center_x': 0.7, 'center_y': 0.7}
+
+            # Bottom Left Button
+            DeviceButton:
+                id: device_5
+                pos_hint: {'center_x': 0.3, 'center_y': 0.3}
+
+            # Bottom Right Button
+            DeviceButton:
+                id: device_6
+                pos_hint: {'center_x': 0.7, 'center_y': 0.3}
+
+
+<DeviceMonitor>:
+
+    myDeviceLabel:myDeviceLabel
+    dataSection:dataSection
+    actionSection:actionSection
+
+    BoxLayout:
+        orientation: 'vertical'
+        
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, None
+            canvas.before:
+                Color:
+                    rgba: (1,0,0,1)
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Button:
+                text: 'back'
+                on_press: root.back()
+                size_hint: 0.2, 1
+
+                
+            Label:
+                id: myDeviceLabel
+                text: ''
+                font_size: 50
+                color: (0,0,0,1)
+                size_hint: 0.8, 1
+
+
+
+            
+        BoxLayout:
+            orientation: 'horizontal'
+
+            BoxLayout:
+                id: dataSection
+                orientation: 'vertical'
+                size_hint: 1, 1
+                canvas.before:
+                    Color:
+                        rgba: (0,1,0,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+
+            
+            BoxLayout:
+                id: actionSection
+                orientation: 'vertical'
+                size_hint: 1, 1
+                canvas.before:
+                    Color:
+                        rgba: (0,0,1,1)
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                
