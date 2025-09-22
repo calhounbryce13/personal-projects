@@ -2,8 +2,8 @@
 
 
 ## DEPENDENCIES:
-requires windows OS (sorry MAC users :/)
-C++ 11 or later
+* requires windows OS (sorry MAC users :/)
+* C++ 11 or later
 
 ## HOW TO ACCESS:
 
