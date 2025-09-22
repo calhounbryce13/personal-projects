@@ -142,6 +142,7 @@ void Game::Program( AI agent){
             cout << "(YOUR TURN)" << endl;
         }
         int winner = this->check_terminal(token);
+
         if(winner == 1){
             agent.agent_win();
             exit(0);
@@ -168,7 +169,7 @@ char Game::token_selection(){
     */
     char response;
     do{
-        cout << "I'll let you choose, do you want to play as 'X' or 'O' ?" << endl;
+        cout << "I'll let you choose, do you want to play as 'X' or 'O' ? ---> :";
         if(response != 'x' && response != 'o'){
             cin >> response;
             system("CLS");
@@ -252,13 +253,13 @@ bool Game::turn_decider(char token){
         }  
     }
 
-    if(x_cntr == o_cntr){
+    if(x_cntr <= o_cntr){
         if(token == 'x'){
             return 0;
         }
         return 1;  
     }
-    else if(o_cntr < x_cntr){
+    else{
         if(token == 'o'){
             return 0;
         }
@@ -286,14 +287,15 @@ void Game::row_prompt(int& row){
     DESCRIPTION: Function to get the row selection on the game board from the user.
     */
     do{
-        cout << "ENTER THE ROW->:";
+        cout << "ENTER THE ROW (1-3) --> :";
         cin >> row;
-        if(row < 0 || row > 2){
+        if(row < 1 || row > 3){
             system("CLS");
             this->print_board();
-            cout << "ROW MUST BE IN RANGE (0-2)" << endl;  
+            cout << "ROW MUST BE IN RANGE (1-3)" << endl;  
         }
-    }while(row < 0 || row > 2);
+    }while(row < 1 || row > 3);
+    row = row - 1;
     
 }
 void Game::column_prompt(int& column){
@@ -301,14 +303,15 @@ void Game::column_prompt(int& column){
     DESCRIPTION: Function to get the colum selection on the game board from the user.
     */
     do{
-        cout << "ENTER THE COLUMN->:";
+        cout << "ENTER THE COLUMN (1-3) --> :";
         cin >> column;
-        if(column < 0 || column > 2){
+        if(column < 1 || column > 3){
             system("CLS");
             this->print_board();
-            cout << "COLUMN MUST BE IN RANGE (0-2)" << endl;
+            cout << "COLUMN MUST BE IN RANGE (1-3)" << endl;
         }
-    }while(column < 0 || column > 2);
+    }while(column < 1 || column > 3);
+    column = column - 1;
     
 }
 
@@ -323,7 +326,7 @@ void Game::move_on_board(int move[], char token, bool player){
     }
     else{
         if(token == 'x'){
-           this->game_board[move[0]][move[1]] = 'o'; 
+            this->game_board[move[0]][move[1]] = 'o'; 
         }
         else{
             this->game_board[move[0]][move[1]] = 'x';
@@ -332,9 +335,11 @@ void Game::move_on_board(int move[], char token, bool player){
 }
 
 int Game::check_terminal(char token){
+
+    //! this is the last function before crash
     /*
     DESCRIPTION: Function to iterate over a single game board
-                 to determine the state of the game.
+                to determine the state of the game.
     */
     for(int i = 0; i < 3; i++){
 
@@ -366,7 +371,6 @@ int Game::check_terminal(char token){
                 }
             
         }
-
     }
     for(int i = 0; i < 3; i++){
         // will check for diagonal win for x
@@ -374,7 +378,7 @@ int Game::check_terminal(char token){
             (this->game_board[0][2] == 'x' && this->game_board[1][1] == 'x' && this->game_board[2][0] == 'x')){
                 if(token == 'x'){
                     return -1;
-                   
+                
                 }
                 else{
                     return 1;
@@ -386,7 +390,7 @@ int Game::check_terminal(char token){
                 (this->game_board[0][2] == 'o' && this->game_board[1][1] == 'o' && this->game_board[2][0] == 'o')){
                     if(token == 'x'){
                         return 1;
-                   
+            
                     }
                     else{
                         return -1;
@@ -394,6 +398,7 @@ int Game::check_terminal(char token){
                     }                    
         }
     }
+    return 0;
     
 }
 
