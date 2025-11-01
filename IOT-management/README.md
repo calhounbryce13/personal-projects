@@ -1,5 +1,5 @@
 # Internet of Things network communication PROTOTYPE application
-## A simple app the showcases a network of devices that use http communication protocols to get instructions from a controller and use local file storage as a database and communication pipeline. I really enjoyed the process of the network design aspect of making this, at both the high and the lower levels of building a network.
+## A simple app that showcases a network of devices that use http communication protocols to get instructions from a controller; uses local file storage as a database and communication pipeline. I really enjoyed the process of the network design aspect of making this, at both the high and the lower levels of building a network.
 
 # dependencies:
 * python
