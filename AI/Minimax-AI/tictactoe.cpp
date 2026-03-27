@@ -17,11 +17,12 @@
 #include <array>
 
 using namespace std;
+
+class board_node{
 /*
 DESCRIPTION: Node definition for each game board representation 
             within the decision tree.
 */
-class board_node{
 
     // access specifier
     private:
@@ -56,11 +57,11 @@ class board_node{
 
 };
 
+class AI{
 /*
 DESCRIPTION: an object to represent the agent utilizing the minimax
             algorithm.
 */
-class AI{
     
     public:
         void ai_turn(int[], char[][3], int&);
@@ -74,10 +75,10 @@ class AI{
         void agent_win();
 };
 
+class Game{
 /*
 DESCRIPTION: An object to facilitate the playing of the game itself. 
 */
-class Game{
 
     public:
         char game_board[3][3];
@@ -103,6 +104,7 @@ int main(){
     g.Program(agent);  
     
 }
+
 
 Game::Game(){
     /*
@@ -260,7 +262,6 @@ void Game::player_turn(int move[]){
 
 }
 
-
 void Game::row_prompt(int& row){
     /*
     DESCRIPTION: Function to get the row selection on the game board from the user.
@@ -277,6 +278,7 @@ void Game::row_prompt(int& row){
     row = row - 1;
     
 }
+
 void Game::column_prompt(int& column){
     /*
     DESCRIPTION: Function to get the colum selection on the game board from the user.
@@ -315,7 +317,6 @@ void Game::move_on_board(int move[], char token, bool player){
 
 int Game::check_terminal(char token){
 
-    //! this is the last function before crash
     /*
     DESCRIPTION: Function to iterate over a single game board
                 to determine the state of the game.
@@ -426,6 +427,7 @@ void AI::ai_turn(int move[], char board[][3], int& function_counter){
         this->minimax(x_counter, o_counter, move, board);
     }
 }
+
 void AI::board_empty(int x, int o, int move[]){
     /*
     DESCRIPTION: Function to simulate opponent move on an empty game board.
@@ -454,6 +456,7 @@ void AI::board_empty(int x, int o, int move[]){
 
     }
 }
+
 void AI::minimax(int x_count, int o_count, int move[], char board[][3]){
     /*
     DESCRIPTION: Implementation of the minimax algorithm.Due to the semi-intelligent decision-making
@@ -847,6 +850,7 @@ void AI::token_insert(board_node** array, int* emptyArray, int size, int x_count
         }
     }
 }
+
 void AI::agent_win(){
     cout << "\nYou have lost to the algorithm!" << endl;
 }
