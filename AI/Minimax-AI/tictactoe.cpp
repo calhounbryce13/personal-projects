@@ -16,7 +16,6 @@
 #include <vector>
 #include <array>
 
-
 using namespace std;
 /*
 DESCRIPTION: Node definition for each game board representation 
@@ -87,7 +86,6 @@ class Game{
         void greet_user();
         char token_selection();
         void print_board();
-        bool turn_decider(char);
         void player_turn(int[]);
         void row_prompt(int&);
         void column_prompt(int&);   
@@ -120,39 +118,54 @@ Game::Game(){
 
 void Game::Program( AI agent){
     this->greet_user();
-    char token = this->token_selection();
-    int ai_turn_counter = 0;
-    if(token == 'x'){
-
-        // board only needs to print here for initial iteration
-        this->print_board();    
-    }
     while(true){
-        bool player = this->turn_decider(token);
-        int move[2] = {};
-        if(player == 0){
-            this->player_turn(move);
+        char token = this->token_selection();
+        int ai_turn_counter = 0;
+        bool turnBoolean = false;
+        if(token == 'x'){
+            this->print_board();    
         }
-        else{
-            agent.ai_turn(move, this->game_board, ai_turn_counter);
-        } 
-        this->move_on_board(move, token, player);
-        this->print_board();
-        if(player == 1){
-            cout << "(YOUR TURN)" << endl;
-        }
-        int winner = this->check_terminal(token);
+        while(true){
+            int player;
+            if(!turnBoolean){
+                player = (token == 'x') ? 0 : 1;
+            }
+            else{
+                player = (token == 'o') ? 0 : 1;
+            }
+            turnBoolean = !turnBoolean;
+            int move[2] = {};
+            if(player == 0){
+                this->player_turn(move);
+            }
+            else{
+                agent.ai_turn(move, this->game_board, ai_turn_counter);
+            } 
+            this->move_on_board(move, token, player);
+            this->print_board();
+            if(player == 1){
+                cout << "(YOUR TURN)" << endl;
+            }
+            int winner = this->check_terminal(token);
 
-        if(winner == 1){
-            agent.agent_win();
-            exit(0);
+            if(winner == 1){
+                agent.agent_win();
+                break;
+            }
+            else if(winner == -1){
+                this->user_win();
+                SetCommBreak;
+            }
         }
-        else if(winner == -1){
-            this->user_win();
-            exit(0);
-        }
+        char again;
+        do{
+            cout << "Would you like to play again?: ";
+            cin >> again;
+            system("CLS");
+        }while(again != 'y' && again != 'n');
+        if(again == 'n') exit(0);
     }
-    
+
 }
 
 void Game::greet_user(){
@@ -184,88 +197,54 @@ void Game::print_board(){
     DESCRIPTION: Function to print game board.
     */
     int size = 3;
-    cout << "-----------------------------" << endl;
+    cout << "----------------" << endl;
+    cout << "  1    2    3" << endl;
 
     for(int i = 0; i < size; i++){
         for(int x = 0; x < size; x++){
             if(x == (size) - 1){
-                cout << "----" << endl;
+                cout << "-----" << endl;
             }
             else{
-                cout << "----";
+                cout << "-----";
             }
         }
         for(int x = 0; x < size; x++){ 
             if(x == ((size) - 1)){
                 if(this->game_board[i][x] == 'x'){
-                    cout << "|X|" << endl;
+                    cout << "| X | " << (i+1) << endl;
                 }
                 else if(this->game_board[i][x] == 'o'){
-                    cout << "|O|" << endl;
+                    cout << "| O | " << (i+1) << endl;
                 }
                 else{
-                    cout << "|  |" << endl;
+                    cout << "|   | " << (i+1) << endl;
                 }
             
             }
             else{
                 if(this->game_board[i][x] == 'x'){
-                    cout << "|X|";
+                    cout << "| X |";
                 }
                 else if(this->game_board[i][x] == 'o'){
-                    cout << "|O|";
+                    cout << "| O |";
                 }
                 else{
-                    cout << "|  |";
+                    cout << "|   |";
                 }
                 
             }  
         }
         for(int x = 0; x < size; x++){
             if(x == ((size) - 1)){
-                cout << "----" << endl;
+                cout << "-----" << endl;
             }
             else{
-                cout << "----";
+                cout << "-----";
             }
         }
     }
-    cout << "-----------------------------" << endl;
-}
-
-bool Game::turn_decider(char token){
-    /*
-    DESCRIPTION: Function to determine wether x or o token plays next.
-    */
-    
-    int x_cntr = 0;
-    int o_cntr = 0;
-    int size = 3;
-
-    for(int x = 0; x < size; x++){
-        for(int i = 0; i < size; i++){
-            if(this->game_board[x][i] == 'x'){
-                x_cntr++;
-            }
-            else if(this->game_board[x][i] == 'o'){
-                o_cntr++;
-            }
-        }  
-    }
-
-    if(x_cntr <= o_cntr){
-        if(token == 'x'){
-            return 0;
-        }
-        return 1;  
-    }
-    else{
-        if(token == 'o'){
-            return 0;
-        }
-        return 1; 
-    }
-
+    cout << "----------------" << endl;
 }
 
 void Game::player_turn(int move[]){
@@ -274,8 +253,8 @@ void Game::player_turn(int move[]){
     */
     int row = 0;
     int column = 0;
-    this->row_prompt(row);
     this->column_prompt(column);
+    this->row_prompt(row);
     move[0] = row;
     move[1] = column;
 
@@ -287,7 +266,7 @@ void Game::row_prompt(int& row){
     DESCRIPTION: Function to get the row selection on the game board from the user.
     */
     do{
-        cout << "ENTER THE ROW (1-3) --> :";
+        cout << "enter the ROW (1-3) --> :";
         cin >> row;
         if(row < 1 || row > 3){
             system("CLS");
@@ -303,7 +282,7 @@ void Game::column_prompt(int& column){
     DESCRIPTION: Function to get the colum selection on the game board from the user.
     */
     do{
-        cout << "ENTER THE COLUMN (1-3) --> :";
+        cout << "enter the COLUMN (1-3) --> :";
         cin >> column;
         if(column < 1 || column > 3){
             system("CLS");
